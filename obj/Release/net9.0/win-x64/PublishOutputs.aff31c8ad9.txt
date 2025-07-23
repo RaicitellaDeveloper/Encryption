@@ -1,0 +1,3 @@
+C:\Users\raiki\.vscode\encryption\bin\Release\net9.0\win-x64\publish\Encryption.pdb
+C:\Users\raiki\.vscode\encryption\bin\Release\net9.0\win-x64\publish\icon.ico
+C:\Users\raiki\.vscode\encryption\bin\Release\net9.0\win-x64\publish\Encryption.exe
