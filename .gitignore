@@ -1,0 +1,42 @@
+# Visual Studio и .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# Общие IDE-шные файлы
+.vscode/
+*.code-workspace
+
+# Файлы конфигурации
+*.pdb
+*.exe
+*.dll
+
+# Файлы среды
+.env
+*.env.*
+
+# Логи
+*.log
+
+# Папки для публикации
+publish/
+dist/
+out/
+
+# Кэш и прочий мусор
+*.tmp
+*.bak
+*.swp
+*~
+Thumbs.db
+Desktop.ini
+
+# OS
+.DS_Store
