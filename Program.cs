@@ -122,7 +122,7 @@ internal class Program
             { 16, 'О' }, { 17, 'П' }, { 18, 'Р' }, { 19, 'С' }, { 20, 'Т' },
             { 21, 'У' }, { 22, 'Ф' }, { 23, 'Х' }, { 24, 'Ц' }, { 25, 'Ч' },
             { 26, 'Ш' }, { 27, 'Щ' }, { 28, 'Ъ' }, { 29, 'Ы' }, { 30, 'Ь' },
-            { 31, 'Э' }, { 32, 'Ю' }, { 33, 'Я' }
+            { 31, 'Э' }, { 32, 'Ю' }, { 33, 'Я' },{ 34, '⍰' }
         };
 
         List<int> result = new List<int>();
@@ -148,7 +148,15 @@ internal class Program
             {
                 if (a.Length == 3)
                 {
-                    result.Add(Convert.ToInt32(a));
+                    if (a != "⍰⍰⍰")
+                    {
+                        result.Add(Convert.ToInt32(a));
+                    }
+                    else
+                    {
+                        result.Add(34);
+                    }
+                    
                     a = "";
                 }
                 else
@@ -166,7 +174,14 @@ internal class Program
         }
         if (a.Length > 0)
             {
-                result.Add(Convert.ToInt32(a));
+                if (a != "⍰⍰⍰")
+                    {
+                        result.Add(Convert.ToInt32(a));
+                    }
+                    else
+                    {
+                        result.Add(34);
+                    }
             }
 
         int x = 0;
