@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DotNetEnv;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -11,28 +12,50 @@ internal class Program
 
 
         Env.Load();
+        
+        System.Console.WriteLine("""
+                Список команд:
+
+                encrypt - Зашифровать сообщение, сокращенный вид команды - en
+                decrypt - Расшифровать сообщение, сокращенный вид команды - de
+                back - вернуться назад, сокращенный вид команды - bk
+                help - помощь (список команд)
+                
+                """);
 
         while (true)
         {
-            System.Console.WriteLine("Что вы хотите сделать: ");
-            System.Console.WriteLine("1. Зашифровать сообщение");
-            System.Console.WriteLine("2. Расшифровать сообщение");
-             System.Console.WriteLine("3. ВЫХОД");
+            System.Console.Write("Ввод: ");
+            //System.Console.WriteLine("1. Зашифровать сообщение");
+            //System.Console.WriteLine("2. Расшифровать сообщение");
+
             string vybor = Console.ReadLine();
 
-            if (vybor == "1")
+            if (vybor == "encrypt" || vybor == "en")
             {
                 Encrypt();
             }
-            else if (vybor == "2")
+            else if (vybor == "decrypt" || vybor == "de")
             {
                 Decrypt();
             }
-            else if (vybor == "3")
+            else if (vybor == "0")
             {
-                break; // выход из цикла — завершение программы
+                break;
             }
-        
+            else if (vybor == "help")
+            {
+                System.Console.WriteLine("""
+                Список команд:
+
+                encrypt - Зашифровать сообщение, сокращенный вид команды - en
+                decrypt - Расшифровать сообщение, сокращенный вид команды - de
+                back - вернуться назад, сокращенный вид команды - bk
+                help - помощь (список команд)
+                
+                """);
+            }
+
         }
 
         { }
@@ -51,102 +74,174 @@ internal class Program
             { 'Ш', 26 }, { 'Щ', 27 }, { 'Ъ', 28 }, { 'Ы', 29 }, { 'Ь', 30 },
             { 'Э', 31 }, { 'Ю', 32 }, { 'Я', 33 }
         };
+        System.Console.WriteLine("Чтобы отменить команду введите - back или bk");
         System.Console.Write("Введите сообщение: ");
         string word = Console.ReadLine().ToUpper();
 
-        List<int> result = new List<int>();
-
-        List<string> res = new List<string>();
-
-        string keyStr = Environment.GetEnvironmentVariable("KEY");
-
-        if (int.TryParse(keyStr, out int key))
+        if (word == "BACK" || word == "BK")
         {
-            
+            return;
         }
         else
         {
-            Console.WriteLine("Ошибка: переменная KEY не является числом");
-        }
 
-        
 
-        int i = 0;
-        while (i < word.Length)
-        {
-            if (letters.ContainsKey(word[i]))
+            List<int> result = new List<int>();
+
+            List<string> res = new List<string>();
+
+            string keyStr = Environment.GetEnvironmentVariable("KEY");
+
+            if (int.TryParse(keyStr, out int key))
             {
-                int a = letters[word[i]];
 
-                int encrypt = a ^ key;
-
-                result.Add(encrypt);
             }
             else
             {
-                //Console.WriteLine($"Символ '{word[i]}' не поддерживается.");
-                result.Add(0);
+                Console.WriteLine("Ошибка: переменная KEY не является числом");
             }
 
-            i++;
-        }
 
-        foreach (int q in result)
-        {
-            if (q == 0)
+
+            int i = 0;
+            while (i < word.Length)
             {
-                res.Add("⍰⍰⍰");
-            }
-            else
-            {
-                res.Add(q.ToString());
-            }
-        }
+                if (letters.ContainsKey(word[i]))
+                {
+                    int a = letters[word[i]];
 
-        {
-            string output = string.Join("-", res);
-            Console.WriteLine(output);
-            //System.Console.Write($"KEY: {key}");
-            System.Console.WriteLine($"\nКол-во символов в сообщении: {result.Count}");
+                    int encrypt = a ^ key;
+
+                    result.Add(encrypt);
+                }
+                else
+                {
+                    //Console.WriteLine($"Символ '{word[i]}' не поддерживается.");
+                    result.Add(0);
+                }
+
+                i++;
+            }
+
+            foreach (int q in result)
+            {
+                if (q == 0)
+                {
+                    res.Add("⍰⍰⍰");
+                }
+                else
+                {
+                    res.Add(q.ToString());
+                }
+            }
+
+            {
+                string output = string.Join("-", res);
+                Console.WriteLine(output);
+                //System.Console.Write($"KEY: {key}");
+                System.Console.WriteLine($"\nКол-во символов в сообщении: {result.Count}");
+            }
         }
     }
 
     static void Decrypt()
     {
         Dictionary<int, char> letters = new Dictionary<int, char>
-        {
-            { 0, ' ' },
-            { 1, 'А' }, { 2, 'Б' }, { 3, 'В' }, { 4, 'Г' }, { 5, 'Д' },
-            { 6, 'Е' }, { 7, 'Ё' }, { 8, 'Ж' }, { 9, 'З' }, { 10, 'И' },
-            { 11, 'Й' }, { 12, 'К' }, { 13, 'Л' }, { 14, 'М' }, { 15, 'Н' },
-            { 16, 'О' }, { 17, 'П' }, { 18, 'Р' }, { 19, 'С' }, { 20, 'Т' },
-            { 21, 'У' }, { 22, 'Ф' }, { 23, 'Х' }, { 24, 'Ц' }, { 25, 'Ч' },
-            { 26, 'Ш' }, { 27, 'Щ' }, { 28, 'Ъ' }, { 29, 'Ы' }, { 30, 'Ь' },
-            { 31, 'Э' }, { 32, 'Ю' }, { 33, 'Я' },{ 34, '⍰' }
-        };
+            {
+                { 0, ' ' },
+                { 1, 'А' },
+                { 2, 'Б' },
+                { 3, 'В' },
+                { 4, 'Г' },
+                { 5, 'Д' },
+                { 6, 'Е' },
+                { 7, 'Ё' },
+                { 8, 'Ж' },
+                { 9, 'З' },
+                { 10, 'И' },
+                { 11, 'Й' },
+                { 12, 'К' },
+                { 13, 'Л' },
+                { 14, 'М' },
+                { 15, 'Н' },
+                { 16, 'О' },
+                { 17, 'П' },
+                { 18, 'Р' },
+                { 19, 'С' },
+                { 20, 'Т' },
+                { 21, 'У' },
+                { 22, 'Ф' },
+                { 23, 'Х' },
+                { 24, 'Ц' },
+                { 25, 'Ч' },
+                { 26, 'Ш' },
+                { 27, 'Щ' },
+                { 28, 'Ъ' },
+                { 29, 'Ы' },
+                { 30, 'Ь' },
+                { 31, 'Э' },
+                { 32, 'Ю' },
+                { 33, 'Я' },
+                { 34, '⍰' }
+            };
 
         List<int> result = new List<int>();
         List<char> res = new List<char>();
-
+        System.Console.WriteLine("Чтобы отменить команду введите - back или bk");
         System.Console.Write("Введите сообщение: ");
-        string word = Console.ReadLine().ToUpper();
-        string keyStr = Environment.GetEnvironmentVariable("KEY");
+        try
+        {
+            string word = Console.ReadLine().ToUpper();
 
-        if (int.TryParse(keyStr, out int key))
-        {
-            
-        }
-        else
-        {
-            Console.WriteLine("Ошибка: переменная KEY не является числом");
-        }
-        string a = "";
-
-        for (int i = 0; i < word.Length;)
-        {
-            if (word[i] != '-')
+            if (word == "BACK" || word == "BK")
             {
-                if (a.Length == 3)
+                return;
+            }
+            else
+            {
+                string keyStr = Environment.GetEnvironmentVariable("KEY");
+
+                if (int.TryParse(keyStr, out int key))
+                {
+
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка: переменная KEY не является числом");
+                }
+                string a = "";
+
+                for (int i = 0; i < word.Length;)
+                {
+                    if (word[i] != '-')
+                    {
+                        if (a.Length == 3)
+                        {
+                            if (a != "⍰⍰⍰")
+                            {
+                                result.Add(Convert.ToInt32(a));
+                            }
+                            else
+                            {
+                                result.Add(34);
+                            }
+
+                            a = "";
+                        }
+                        else
+                        {
+                            a += word[i];
+                            i++;
+                        }
+
+                    }
+                    else
+                    {
+                        i++;
+                    }
+
+                }
+                if (a.Length > 0)
                 {
                     if (a != "⍰⍰⍰")
                     {
@@ -156,60 +251,40 @@ internal class Program
                     {
                         result.Add(34);
                     }
-                    
-                    a = "";
-                }
-                else
-                {
-                    a += word[i];
-                    i++;
                 }
 
-            }
-            else
-            {
-                i++;
-            }
-            
-        }
-        if (a.Length > 0)
-            {
-                if (a != "⍰⍰⍰")
+                int x = 0;
+                while (x < result.Count)
+                {
+                    int Decrypt = result[x] ^ key;
+
+
+                    if (letters.ContainsKey(Decrypt))
                     {
-                        result.Add(Convert.ToInt32(a));
+
+                        res.Add(letters[Decrypt]);
                     }
                     else
                     {
-                        result.Add(34);
+                        //Console.WriteLine($"Символ '{word[i]}' не поддерживается.");
+                        res.Add('⍰');
                     }
-            }
+                    x++;
+                }
 
-        int x = 0;
-        while (x < result.Count)
-        {
-            int Decrypt = result[x] ^ key;
+                {
+                    string output = string.Join("", res);
+                    Console.WriteLine(output);
+
+                    System.Console.WriteLine($"Кол-во символов в сообщении: {result.Count}");
+                }
 
 
-            if (letters.ContainsKey(Decrypt))
-            {
-                
-                res.Add(letters[Decrypt]);
             }
-            else
-            {
-                //Console.WriteLine($"Символ '{word[i]}' не поддерживается.");
-                res.Add('⍰');
-            }
-            x++;
         }
-        
+        catch (System.FormatException)
         {
-            string output = string.Join("", res);
-            Console.WriteLine(output);
-            
-            System.Console.WriteLine($"Кол-во символов в сообщении: {result.Count}");
-        }
-
-
+                System.Console.WriteLine("ОШИБКА");
+            }
     }
 }

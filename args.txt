@@ -1,0 +1,1 @@
+﻿--releasify|./publish/Encryption.exe|--no-msi
