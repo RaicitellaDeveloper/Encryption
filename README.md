@@ -13,5 +13,5 @@
 4. ✅ Готово! Можешь пользоваться!
 
 
-# Raicitella's Team 2025
+ Raicitella's Team 2025
 
