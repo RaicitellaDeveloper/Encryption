@@ -10,7 +10,6 @@ internal class Program
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         System.Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-
         Env.Load();
         
         System.Console.WriteLine("""
