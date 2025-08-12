@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using DotNetEnv;
+using Sprache;
 
 internal class Program
 {
+    public static string? itog;
+
+
     private static void Main(string[] args)
     {
         Console.InputEncoding = System.Text.Encoding.UTF8;
@@ -11,7 +15,7 @@ internal class Program
         System.Console.OutputEncoding = System.Text.Encoding.UTF8;
 
         Env.Load();
-        
+
         System.Console.WriteLine("""
                 Список команд:
 
@@ -25,16 +29,14 @@ internal class Program
         while (true)
         {
             System.Console.Write("Ввод: ");
-            //System.Console.WriteLine("1. Зашифровать сообщение");
-            //System.Console.WriteLine("2. Расшифровать сообщение");
 
-            string vybor = Console.ReadLine();
+            string vybor = Console.ReadLine().ToUpper();
 
-            if (vybor == "encrypt" || vybor == "en")
+            if (vybor == "ENCRYPT" || vybor == "EN")
             {
                 Encrypt();
             }
-            else if (vybor == "decrypt" || vybor == "de")
+            else if (vybor == "DECRYPT" || vybor == "DE")
             {
                 Decrypt();
             }
@@ -42,7 +44,7 @@ internal class Program
             {
                 break;
             }
-            else if (vybor == "help")
+            else if (vybor == "HELP")
             {
                 System.Console.WriteLine("""
                 Список команд:
@@ -135,10 +137,13 @@ internal class Program
             }
 
             {
-                string output = string.Join("-", res);
-                Console.WriteLine(output);
+                string output = string.Join(" ", res);
+                bitEN(output);
+                System.Console.WriteLine($"{itog}_{result.Count}");
+                //Console.WriteLine(output);
                 //System.Console.Write($"KEY: {key}");
                 System.Console.WriteLine($"\nКол-во символов в сообщении: {result.Count}");
+
             }
         }
     }
@@ -212,7 +217,7 @@ internal class Program
 
                 for (int i = 0; i < word.Length;)
                 {
-                    if (word[i] != '-')
+                    if (word[i] != ' ')
                     {
                         if (a.Length == 3)
                         {
@@ -283,7 +288,67 @@ internal class Program
         }
         catch (System.FormatException)
         {
-                System.Console.WriteLine("ОШИБКА");
+            System.Console.WriteLine("ОШИБКА");
+        }
+    }
+
+
+    static void bitEN(string output)
+    {
+        List<int> numbers = new List<int>();
+        int conv = 0b0000_0000;
+        string num = "";
+        int i = 0;
+        while (i < output.Length)
+        {
+            if (output[i] != ' ')
+            {
+                while (num.Length < 3 && i < output.Length)
+                {
+                    num += output[i];
+                    i++;
+                }
+
+                if (num.Length == 3)
+                {
+                    numbers.Add(Convert.ToInt32(num));
+
+                }
+                num = "";
             }
+            else
+            {
+                i++;
+            }
+        }
+
+        int ii = 0;
+        conv = conv | numbers[ii];
+        ii += 1;
+        while (ii < numbers.Count)
+        {
+            conv = conv << 8;
+            conv = conv | numbers[ii];
+            ii += 1;
+        }
+
+        itog = Convert.ToString(conv);
+        //System.Console.WriteLine($"{conv}");
+    }
+
+    static void bitDE(string word)
+    {
+        List<int> numbers = new List<int>();
+
+        int conv = Convert.ToInt32(word);
+        int? num;
+
+
+
+        
+                
+
+        
+
     }
 }
