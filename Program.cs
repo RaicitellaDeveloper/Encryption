@@ -45,7 +45,7 @@ internal class Program
                 {
                     System.Console.WriteLine("Чтобы отменить команду введите - back или bk");
                     System.Console.Write("Введите сообщение: ");
-                    string word = Console.ReadLine().ToUpper();
+                    string word = Console.ReadLine();
                     Encryption.Decrypt(word);
                 }
                 else if (vybor == "0")
@@ -105,7 +105,7 @@ internal class Program
                 {
                     System.Console.WriteLine("To cancel the command, type - back or bk");
                     System.Console.Write("Enter message: ");
-                    string word = Console.ReadLine().ToUpper();
+                    string word = Console.ReadLine();
                     Encryption.Decrypt(word);
                 }
                 else if (vybor == "0")

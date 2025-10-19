@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
+using System.Text;
 using DotNetEnv;
 
 namespace EasyEncryption
@@ -78,18 +79,21 @@ namespace EasyEncryption
 
                 {
                     string output = string.Join("-", res);
-                    Console.WriteLine(output);
+                    byte[] bytes = Encoding.UTF8.GetBytes(output);
+                    string base64 = Convert.ToBase64String(bytes);
+                    System.Console.WriteLine(output);
+                    Console.WriteLine(base64);
                     //System.Console.Write($"KEY: {key}");
                     if (lang == "RU")
                         System.Console.WriteLine($"Кол-во символов в сообщении: {res.Count}");
                     else if(lang == "EN")
-                        System.Console.WriteLine($"Number of characters in a message:: {res.Count}");
+                        System.Console.WriteLine($"Number of characters in a message: {res.Count}");
                     System.Console.WriteLine(" ");
                 }
             }
         }
 
-        public static void Decrypt(string word)
+        public static void Decrypt(string w)
         {
             Dictionary<int, char> letters = new Dictionary<int, char>
         {
@@ -120,12 +124,16 @@ namespace EasyEncryption
 
             try
             {
-                if (word == "BACK" || word == "BK")
+                
+                
+                if (w == "back" || w == "bk")
                 {
                     return;
                 }
                 else
                 {
+                    byte[] bytess = Convert.FromBase64String(w);
+                    string word = Encoding.UTF8.GetString(bytess);
                     string keyStr = Environment.GetEnvironmentVariable("KEY");
 
                     if (int.TryParse(keyStr, out int key))
@@ -181,7 +189,7 @@ namespace EasyEncryption
                         if (lang == "RU")
                             System.Console.WriteLine($"Кол-во символов в сообщении: {res.Count}");
                         else if(lang == "EN")
-                            System.Console.WriteLine($"Number of characters in a message:: {res.Count}");
+                            System.Console.WriteLine($"Number of characters in a message: {res.Count}");
                         System.Console.WriteLine(" ");
                     }
 
