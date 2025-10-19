@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using DotNetEnv;
 
 namespace EasyEncryption
 {
     class Encryption
     {
-
-        
+        static string lang = Environment.GetEnvironmentVariable("LANGUAGE");
         public static void Encrypt(string word)
         {
             Dictionary<char, int> letters = new Dictionary<char, int>
@@ -51,7 +51,10 @@ namespace EasyEncryption
                 { }
                 else
                 {
-                    Console.WriteLine("Ошибка: переменная KEY не является числом");
+                    if (lang == "RU")
+                        Console.WriteLine("Ошибка: переменная KEY не является числом");
+                    else if (lang == "EN")
+                        Console.WriteLine("Error: The KEY variable is not a number");
                 }
 
                 int i = 0;
@@ -77,12 +80,14 @@ namespace EasyEncryption
                     string output = string.Join("-", res);
                     Console.WriteLine(output);
                     //System.Console.Write($"KEY: {key}");
-                    System.Console.WriteLine($"Кол-во символов в сообщении: {res.Count}");
+                    if (lang == "RU")
+                        System.Console.WriteLine($"Кол-во символов в сообщении: {res.Count}");
+                    else if(lang == "EN")
+                        System.Console.WriteLine($"Number of characters in a message:: {res.Count}");
                     System.Console.WriteLine(" ");
                 }
             }
         }
-
 
         public static void Decrypt(string word)
         {
@@ -127,7 +132,10 @@ namespace EasyEncryption
                     { }
                     else
                     {
+                        if (lang == "RU")
                         Console.WriteLine("Ошибка: переменная KEY не является числом");
+                        else if (lang == "EN")
+                            Console.WriteLine("Error: The KEY variable is not a number");
                     }
 
                     string[] parts = word.Split('-');
@@ -170,7 +178,10 @@ namespace EasyEncryption
                         string output = string.Join("", res);
                         Console.WriteLine(output);
 
-                        System.Console.WriteLine($"Кол-во символов в сообщении: {result.Count}");
+                        if (lang == "RU")
+                            System.Console.WriteLine($"Кол-во символов в сообщении: {res.Count}");
+                        else if(lang == "EN")
+                            System.Console.WriteLine($"Number of characters in a message:: {res.Count}");
                         System.Console.WriteLine(" ");
                     }
 
@@ -179,7 +190,10 @@ namespace EasyEncryption
             }
             catch (System.FormatException)
             {
-                System.Console.WriteLine("ОШИБКА");
+                if (lang == "RU")
+                        System.Console.WriteLine("ОШИБКА");
+                else if(lang == "EN")
+                    System.Console.WriteLine("ERROR");
             }
         }
 
