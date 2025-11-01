@@ -81,12 +81,12 @@ namespace EasyEncryption
                     string output = string.Join("-", res);
                     byte[] bytes = Encoding.UTF8.GetBytes(output);
                     string base64 = Convert.ToBase64String(bytes);
-                    System.Console.WriteLine(output);
+                    //System.Console.WriteLine(output);
                     Console.WriteLine(base64);
                     //System.Console.Write($"KEY: {key}");
                     if (lang == "RU")
                         System.Console.WriteLine($"Кол-во символов в сообщении: {res.Count}");
-                    else if(lang == "EN")
+                    else if (lang == "EN")
                         System.Console.WriteLine($"Number of characters in a message: {res.Count}");
                     System.Console.WriteLine(" ");
                 }
@@ -124,8 +124,8 @@ namespace EasyEncryption
 
             try
             {
-                
-                
+
+
                 if (w == "back" || w == "bk")
                 {
                     return;
@@ -141,13 +141,13 @@ namespace EasyEncryption
                     else
                     {
                         if (lang == "RU")
-                        Console.WriteLine("Ошибка: переменная KEY не является числом");
+                            Console.WriteLine("Ошибка: переменная KEY не является числом");
                         else if (lang == "EN")
                             Console.WriteLine("Error: The KEY variable is not a number");
                     }
 
                     string[] parts = word.Split('-');
-                    
+
                     List<int> result = new List<int>();
                     List<char> res = new List<char>();
 
@@ -162,7 +162,7 @@ namespace EasyEncryption
                             result.Add(34);
                         }
                     }
-                        
+
                     int x = 0;
                     while (x < result.Count)
                     {
@@ -188,7 +188,7 @@ namespace EasyEncryption
 
                         if (lang == "RU")
                             System.Console.WriteLine($"Кол-во символов в сообщении: {res.Count}");
-                        else if(lang == "EN")
+                        else if (lang == "EN")
                             System.Console.WriteLine($"Number of characters in a message: {res.Count}");
                         System.Console.WriteLine(" ");
                     }
@@ -199,10 +199,47 @@ namespace EasyEncryption
             catch (System.FormatException)
             {
                 if (lang == "RU")
-                        System.Console.WriteLine("ОШИБКА");
-                else if(lang == "EN")
+                    System.Console.WriteLine("ОШИБКА");
+                else if (lang == "EN")
                     System.Console.WriteLine("ERROR");
             }
+        }
+    }
+    
+    class Config
+    {
+        public static async void UpdKey(string envPath, string key)
+        {
+            string zamena = $"KEY={key}";
+
+                var line = File.ReadAllLines(envPath).ToList();
+
+                line.RemoveAll(line => line.StartsWith("KEY"));
+
+                File.WriteAllLines(envPath, line);
+
+                using (StreamWriter writer = new StreamWriter(envPath, true))
+                {
+                    await writer.WriteLineAsync(zamena);
+                }
+
+        }
+
+        public static async void UpdLang(string envPath, string lang)
+        {
+            string zamena = $"LANGUAGE={lang}";
+
+                var line = File.ReadAllLines(envPath).ToList();
+
+                line.RemoveAll(line => line.StartsWith("LANGUAGE"));
+
+                File.WriteAllLines(envPath, line);
+
+                using (StreamWriter writer = new StreamWriter(envPath, true))
+                {
+                    await writer.WriteLineAsync(zamena);
+                }
+
         }
 
 

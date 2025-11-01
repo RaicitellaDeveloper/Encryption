@@ -21,10 +21,11 @@ internal class Program
             System.Console.WriteLine("""
                 Список команд:
 
-                encrypt - Зашифровать сообщение, сокращенный вид команды - en
-                decrypt - Расшифровать сообщение, сокращенный вид команды - de
-                back - вернуться назад, сокращенный вид команды - bk
-                help - список команд)
+                !en - Зашифровать сообщение
+                !de - Расшифровать сообщение
+                !bk - вернуться назад
+                !help - помощь (список команд)
+                !config - настройки
                 
                 """);
 
@@ -34,42 +35,68 @@ internal class Program
 
                 string vybor = Console.ReadLine().ToUpper();
 
-                if (vybor == "ENCRYPT" || vybor == "EN")
+                if (vybor == "!ENCRYPT" || vybor == "!EN")
                 {
                     System.Console.WriteLine("Чтобы отменить команду введите - back или bk");
                     System.Console.Write("Введите сообщение: ");
                     string word = Console.ReadLine().ToUpper();
                     Encryption.Encrypt(word);
                 }
-                else if (vybor == "DECRYPT" || vybor == "DE")
+                else if (vybor == "!DECRYPT" || vybor == "!DE")
                 {
                     System.Console.WriteLine("Чтобы отменить команду введите - back или bk");
                     System.Console.Write("Введите сообщение: ");
                     string word = Console.ReadLine();
                     Encryption.Decrypt(word);
                 }
-                else if (vybor == "0")
+                else if (vybor == "!0")
                 {
                     break;
                 }
-                else if (vybor == "VERSION")
+                else if (vybor == "!VERSION")
                 {
                     System.Console.WriteLine(v);
                 }
-                else if (vybor == "CONFIG")
+                else if (vybor == "!CONFIG")
                 {
-                    var envPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".env");
-                    Process.Start("notepad.exe", envPath);
+                    string keyyStr = Environment.GetEnvironmentVariable("KEY");
+
+                    if (int.TryParse(keyyStr, out int keyy))
+                    { }
+                    System.Console.WriteLine($"""
+                        Config EasyEncryption App
+
+                        KEY={keyy}
+                        LANGUAGE={lang}
+                     """);
+                    //System.Console.WriteLine();
+                    string comm = Console.ReadLine();
+                    string[] com = comm.Split('=');
+                    if(com[0] == "key")
+                    {
+                        string envPath = ".env";
+                        EasyEncryption.Config.UpdKey(envPath,com[1]);
+
+                    }else if(com[0] == "language")
+                    {
+                        string envPath = ".env";
+                        EasyEncryption.Config.UpdLang(envPath,com[1]);
+                        
+                    }
+                    
+                    
                 }
-                else if (vybor == "HELP")
+                else if (vybor == "!HELP")
                 {
                     System.Console.WriteLine("""
                 Список команд:
 
-                encrypt - Зашифровать сообщение, сокращенный вид команды - en
-                decrypt - Расшифровать сообщение, сокращенный вид команды - de
-                back - вернуться назад, сокращенный вид команды - bk
-                help - помощь (список команд)
+                !en - Зашифровать сообщение
+                !de - Расшифровать сообщение
+                !bk - вернуться назад
+                !help - помощь (список команд)
+                !config - настройки
+
                 
                 """);
                 }
@@ -94,45 +121,57 @@ internal class Program
 
                 string vybor = Console.ReadLine().ToUpper();
 
-                if (vybor == "ENCRYPT" || vybor == "EN")
+                if (vybor == "!ENCRYPT" || vybor == "!EN")
                 {
                     System.Console.WriteLine("To cancel the command, type - back or bk");
                     System.Console.Write("Enter message: ");
                     string word = Console.ReadLine().ToUpper();
                     Encryption.Encrypt(word);
                 }
-                else if (vybor == "DECRYPT" || vybor == "DE")
+                else if (vybor == "!DECRYPT" || vybor == "!DE")
                 {
                     System.Console.WriteLine("To cancel the command, type - back or bk");
                     System.Console.Write("Enter message: ");
                     string word = Console.ReadLine();
                     Encryption.Decrypt(word);
                 }
-                else if (vybor == "0")
+                else if (vybor == "!0")
                 {
                     break;
                 }
-                else if (vybor == "VERSION")
+                else if (vybor == "!VERSION")
                 {
                     System.Console.WriteLine(v);
                 }
-                else if (vybor == "CONFIG")
+                else if (vybor == "!CONFIG")
                 {
-                    // Путь к %AppData%
-                    string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                    // Путь к %LocalAppData%
-                    string localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    string keyyStr = Environment.GetEnvironmentVariable("KEY");
 
-                    // Например, сделаем подпапку для твоего приложения
-                    string myAppFolder = Path.Combine(localAppDataPath, "EncryptionApp");
-                    Directory.CreateDirectory(myAppFolder);
+                    if (int.TryParse(keyyStr, out int keyy))
+                    { }
+                    System.Console.WriteLine($"""
+                        Config EasyEncryption App
 
-                    // Теперь путь к .env
-                    string envPath = Path.Combine(myAppFolder, ".env");
+                        KEY={keyy}
+                        LANGUAGE={lang}
+                     """);
+                    string comm = Console.ReadLine();
+                    string[] com = comm.Split('=');
+                    if(com[0] == "key")
+                    {
+                        string envPath = ".env";
+                        EasyEncryption.Config.UpdKey(envPath,com[1]);
 
-                    Process.Start("notepad.exe", envPath);
+                    }else if(com[0] == "language")
+                    {
+                        string envPath = ".env";
+                        EasyEncryption.Config.UpdLang(envPath,com[1]);
+                        
+                    }
+                    
+                    
                 }
-                else if (vybor == "HELP")
+                else if (vybor == "!HELP")
                 {
                     System.Console.WriteLine("""
                             List of commands: 
