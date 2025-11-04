@@ -64,10 +64,10 @@ internal class Program
                     if (int.TryParse(keyyStr, out int keyy))
                     { }
                     System.Console.WriteLine($"""
-                        Config EasyEncryption App
+                     Config EasyEncryption App
 
-                        KEY={keyy}
-                        LANGUAGE={lang}
+                     KEY={keyy}
+                     LANGUAGE={lang}
                      """);
                     //System.Console.WriteLine();
                     string comm = Console.ReadLine();
@@ -106,12 +106,13 @@ internal class Program
         else if (lang == "EN")
         {
             System.Console.WriteLine("""
-                List of commands: 
+                List of commands:
 
-                encrypt - Encrypt a message, abbreviated form of the command - en 
-                decrypt - Decrypt the message, abbreviated form of the command - de 
-                back - go back, abbreviated form of the command - bk 
-                help - list of commands
+                !en - Encrypt the message
+                !de - Decrypt the message
+                !bk - go back
+                !help - help (list of commands)
+                !config - settings
                 
                 """);
 
@@ -150,10 +151,10 @@ internal class Program
                     if (int.TryParse(keyyStr, out int keyy))
                     { }
                     System.Console.WriteLine($"""
-                        Config EasyEncryption App
+                     Config EasyEncryption App
 
-                        KEY={keyy}
-                        LANGUAGE={lang}
+                     KEY={keyy}
+                     LANGUAGE={lang}
                      """);
                     string comm = Console.ReadLine();
                     string[] com = comm.Split('=');
@@ -174,12 +175,13 @@ internal class Program
                 else if (vybor == "!HELP")
                 {
                     System.Console.WriteLine("""
-                            List of commands: 
+                            List of commands:
 
-                            encrypt - Encrypt a message, abbreviated form of the command - en 
-                            decrypt - Decrypt the message, abbreviated form of the command - de 
-                            back - go back, abbreviated form of the command - bk 
-                            help - list of commands
+                            !en - Encrypt the message
+                            !de - Decrypt the message
+                            !bk - go back
+                            !help - help (list of commands)
+                            !config - settings
                     
                             """);
                 }
