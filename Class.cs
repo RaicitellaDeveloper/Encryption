@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using System.Text;
 using DotNetEnv;
+using System.Runtime.InteropServices;
+using System.IO;
 
 namespace EasyEncryption
 {
@@ -16,21 +18,21 @@ namespace EasyEncryption
             { ' ', 0 },
 
             // Русский алфавит
-            { 'А', 1 }, { 'Б', 2 }, { 'В', 3 }, { 'Г', 4 }, { 'Д', 5 },
-            { 'Е', 6 }, { 'Ё', 7 }, { 'Ж', 8 }, { 'З', 9 }, { 'И', 10 },
-            { 'Й', 11 }, { 'К', 12 }, { 'Л', 13 }, { 'М', 14 }, { 'Н', 15 },
-            { 'О', 16 }, { 'П', 17 }, { 'Р', 18 }, { 'С', 19 }, { 'Т', 20 },
-            { 'У', 21 }, { 'Ф', 22 }, { 'Х', 23 }, { 'Ц', 24 }, { 'Ч', 25 },
-            { 'Ш', 26 }, { 'Щ', 27 }, { 'Ъ', 28 }, { 'Ы', 29 }, { 'Ь', 30 },
-            { 'Э', 31 }, { 'Ю', 32 }, { 'Я', 33 },
+            { 'а', 1 }, { 'б', 2 }, { 'в', 3 }, { 'г', 4 }, { 'д', 5 },
+            { 'е', 6 }, { 'ё', 7 }, { 'ж', 8 }, { 'з', 9 }, { 'и', 10 },
+            { 'й', 11 }, { 'к', 12 }, { 'л', 13 }, { 'м', 14 }, { 'н', 15 },
+            { 'о', 16 }, { 'п', 17 }, { 'р', 18 }, { 'с', 19 }, { 'т', 20 },
+            { 'у', 21 }, { 'ф', 22 }, { 'х', 23 }, { 'ц', 24 }, { 'ч', 25 },
+            { 'ш', 26 }, { 'щ', 27 }, { 'ъ', 28 }, { 'ы', 29 }, { 'ь', 30 },
+            { 'э', 31 }, { 'ю', 32 }, { 'я', 33 },
 
             // Английский алфавит
-            { 'A', 35 }, { 'B', 36 }, { 'C', 37 }, { 'D', 38 }, { 'E', 39 },
-            { 'F', 40 }, { 'G', 41 }, { 'H', 42 }, { 'I', 43 }, { 'J', 44 },
-            { 'K', 45 }, { 'L', 46 }, { 'M', 47 }, { 'N', 48 }, { 'O', 49 },
-            { 'P', 50 }, { 'Q', 51 }, { 'R', 52 }, { 'S', 53 }, { 'T', 54 },
-            { 'U', 55 }, { 'V', 56 }, { 'W', 57 }, { 'X', 58 }, { 'Y', 59 },
-            { 'Z', 60 },
+            { 'a', 35 }, { 'b', 36 }, { 'c', 37 }, { 'd', 38 }, { 'e', 39 },
+            { 'f', 40 }, { 'g', 41 }, { 'h', 42 }, { 'i', 43 }, { 'j', 44 },
+            { 'k', 45 }, { 'l', 46 }, { 'm', 47 }, { 'n', 48 }, { 'o', 49 },
+            { 'p', 50 }, { 'q', 51 }, { 'r', 52 }, { 's', 53 }, { 't', 54 },
+            { 'u', 55 }, { 'v', 56 }, { 'w', 57 }, { 'x', 58 }, { 'y', 59 },
+            { 'z', 60 },
 
             //цифры
             {'0',71},{'1',72},{'2',73},{'3',74},{'4',75},{'5',76},{'6',77},{'7',78},{'8',79},{'9',80},
@@ -100,21 +102,21 @@ namespace EasyEncryption
             { 0, ' ' },
 
             // Русский алфавит
-            { 1, 'А' }, { 2, 'Б' }, { 3, 'В' }, { 4, 'Г' }, { 5, 'Д' },
-            { 6, 'Е' }, { 7, 'Ё' }, { 8, 'Ж' }, { 9, 'З' }, { 10, 'И' },
-            { 11, 'Й' }, { 12, 'К' }, { 13, 'Л' }, { 14, 'М' }, { 15, 'Н' },
-            { 16, 'О' }, { 17, 'П' }, { 18, 'Р' }, { 19, 'С' }, { 20, 'Т' },
-            { 21, 'У' }, { 22, 'Ф' }, { 23, 'Х' }, { 24, 'Ц' }, { 25, 'Ч' },
-            { 26, 'Ш' }, { 27, 'Щ' }, { 28, 'Ъ' }, { 29, 'Ы' }, { 30, 'Ь' },
-            { 31, 'Э' }, { 32, 'Ю' }, { 33, 'Я' },
+            { 1, 'а' }, { 2, 'б' }, { 3, 'в' }, { 4, 'г' }, { 5, 'д' },
+            { 6, 'е' }, { 7, 'ё' }, { 8, 'ж' }, { 9, 'з' }, { 10, 'и' },
+            { 11, 'й' }, { 12, 'к' }, { 13, 'л' }, { 14, 'м' }, { 15, 'н' },
+            { 16, 'о' }, { 17, 'п' }, { 18, 'р' }, { 19, 'с' }, { 20, 'т' },
+            { 21, 'у' }, { 22, 'ф' }, { 23, 'х' }, { 24, 'ц' }, { 25, 'ч' },
+            { 26, 'ш' }, { 27, 'щ' }, { 28, 'ъ' }, { 29, 'ы' }, { 30, 'ь' },
+            { 31, 'э' }, { 32, 'ю' }, { 33, 'я' },
 
             // Английский алфавит
-            { 35, 'A' }, { 36, 'B' }, { 37, 'C' }, { 38, 'D' }, { 39, 'E' },
-            { 40, 'F' }, { 41, 'G' }, { 42, 'H' }, { 43, 'I' }, { 44, 'J' },
-            { 45, 'K' }, { 46, 'L' }, { 47, 'M' }, { 48, 'N' }, { 49, 'O' },
-            { 50, 'P' }, { 51, 'Q' }, { 52, 'R' }, { 53, 'S' }, { 54, 'T' },
-            { 55, 'U' }, { 56, 'V' }, { 57, 'W' }, { 58, 'X' }, { 59, 'Y' },
-            { 60, 'Z' },
+            { 35, 'a' }, { 36, 'b' }, { 37, 'c' }, { 38, 'd' }, { 39, 'e' },
+            { 40, 'f' }, { 41, 'g' }, { 42, 'h' }, { 43, 'i' }, { 44, 'j' },
+            { 45, 'k' }, { 46, 'l' }, { 47, 'm' }, { 48, 'n' }, { 49, 'o' },
+            { 50, 'p' }, { 51, 'q' }, { 52, 'r' }, { 53, 's' }, { 54, 't' },
+            { 55, 'u' }, { 56, 'v' }, { 57, 'w' }, { 58, 'x' }, { 59, 'y' },
+            { 60, 'z' },
 
             //цифры
             {71,'0'},{72,'1'},{73,'2'},{74,'3'},{75,'4'},{76,'5'},{77,'6'},{78,'7'},{79,'8'},{80,'9'},
@@ -145,7 +147,6 @@ namespace EasyEncryption
                         else if (lang == "EN")
                             Console.WriteLine("Error: The KEY variable is not a number");
                     }
-
                     string[] parts = word.Split('-');
 
                     List<int> result = new List<int>();
@@ -229,17 +230,69 @@ namespace EasyEncryption
         {
             string zamena = $"LANGUAGE={lang}";
 
-                var line = File.ReadAllLines(envPath).ToList();
+            var line = File.ReadAllLines(envPath).ToList();
 
-                line.RemoveAll(line => line.StartsWith("LANGUAGE"));
+            line.RemoveAll(line => line.StartsWith("LANGUAGE"));
 
-                File.WriteAllLines(envPath, line);
+            File.WriteAllLines(envPath, line);
 
-                using (StreamWriter writer = new StreamWriter(envPath, true))
+            using (StreamWriter writer = new StreamWriter(envPath, true))
+            {
+                await writer.WriteLineAsync(zamena);
+            }
+
+        }
+        
+
+        public static void CreateEnv()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                string homePath = Environment.GetEnvironmentVariable("HOME");
+                string confpath = $"{homePath}/.config/EasyEncryption";
+                string confpath2 = $"{homePath}/.config/EasyEncryption/.env";
+                string conf = """ 
+                LANGUAGE=EN 
+                KEY=131 
+                """;
+                if (!File.Exists(confpath2))
                 {
-                    await writer.WriteLineAsync(zamena);
+                    Directory.CreateDirectory(confpath);
+                    using (FileStream fs = File.Create(confpath2))
+                    {
+                        byte[] bytes = Encoding.UTF8.GetBytes(conf);
+                        fs.Write(bytes, 0, bytes.Length);
+                    }
+                }
+                else
+                {
+                    return;
                 }
 
+            }else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+                string confpath = $"{appDataPath}/EasyEncryption";
+                string confpath2 = $"{appDataPath}/EasyEncryption/.env";
+                string conf = """ 
+                LANGUAGE=EN 
+                KEY=131 
+                """;
+                if (!File.Exists(confpath2))
+                {
+                    Directory.CreateDirectory(confpath);
+                    using (FileStream fs = File.Create(confpath2))
+                    {
+                        byte[] bytes = Encoding.UTF8.GetBytes(conf);
+                        fs.Write(bytes, 0, bytes.Length);
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
 
 

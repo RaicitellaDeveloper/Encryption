@@ -7,25 +7,29 @@ using EasyEncryption;
 internal class Program
 {
     
-    private static void Main(string[] args)
+    private static void Main()
     {
+        bool zapusk = true;
         Console.InputEncoding = System.Text.Encoding.UTF8;
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         System.Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-        Env.Load();
+        EasyEncryption.Config.CreateEnv();
+
+        string pathEnv1 = Path.Combine("/home/raicitella/.config/EasyEncryption/", ".env");
+        Env.Load(pathEnv1);
         string v = "1.4.0-dev";
         string lang = Environment.GetEnvironmentVariable("LANGUAGE");
         if (lang == "RU")
-        {
+        {   
             System.Console.WriteLine("""
                 Список команд:
-
-                !en - Зашифровать сообщение
-                !de - Расшифровать сообщение
-                !bk - вернуться назад
-                !help - помощь (список команд)
-                !config - настройки
+                en - Зашифровать сообщение
+                de - Расшифровать сообщение
+                bk - вернуться назад
+                help - помощь (список команд)
+                config - настройки
+                version - текущуя версия программы
                 
                 """);
 
@@ -35,84 +39,109 @@ internal class Program
 
                 string vybor = Console.ReadLine().ToUpper();
 
-                if (vybor == "!ENCRYPT" || vybor == "!EN")
+                if (vybor == "ENCRYPT" || vybor == "EN")
                 {
                     System.Console.WriteLine("Чтобы отменить команду введите - back или bk");
                     System.Console.Write("Введите сообщение: ");
-                    string word = Console.ReadLine().ToUpper();
+                    string word = Console.ReadLine().ToLower();
                     Encryption.Encrypt(word);
                 }
-                else if (vybor == "!DECRYPT" || vybor == "!DE")
+                else if (vybor == "DECRYPT" || vybor == "DE")
                 {
                     System.Console.WriteLine("Чтобы отменить команду введите - back или bk");
                     System.Console.Write("Введите сообщение: ");
                     string word = Console.ReadLine();
                     Encryption.Decrypt(word);
                 }
-                else if (vybor == "!0")
+                else if (vybor == "0")
                 {
+                    zapusk = false;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine("The program is completed!");
+                    Console.ResetColor();
                     break;
                 }
-                else if (vybor == "!VERSION")
+                else if (vybor == "VERSION")
                 {
                     System.Console.WriteLine(v);
                 }
-                else if (vybor == "!CONFIG")
+                else if (vybor == "CONFIG")
                 {
                     string keyyStr = Environment.GetEnvironmentVariable("KEY");
 
                     if (int.TryParse(keyyStr, out int keyy))
                     { }
+                    Console.ForegroundColor = ConsoleColor.Green;
                     System.Console.WriteLine($"""
+                     _________________________
                      Config EasyEncryption App
 
-                     KEY={keyy}
-                     LANGUAGE={lang}
+                     key={keyy}
+                     language={lang}
+                     _________________________
                      """);
+                    Console.ResetColor();
                     //System.Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    System.Console.Write("Config: ");
+                    Console.ResetColor();
                     string comm = Console.ReadLine();
                     string[] com = comm.Split('=');
-                    if(com[0] == "key")
+                    if (com[0] == "key")
                     {
-                        string envPath = ".env";
-                        EasyEncryption.Config.UpdKey(envPath,com[1]);
+                        string envPath = "/home/raicitella/.config/EasyEncryption/.env";
+                        EasyEncryption.Config.UpdKey(envPath, com[1]);
+                        zapusk = true;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        System.Console.WriteLine("Ready!");
+                        Console.ResetColor();
+                        break;
 
-                    }else if(com[0] == "language")
-                    {
-                        string envPath = ".env";
-                        EasyEncryption.Config.UpdLang(envPath,com[1]);
-                        
                     }
-                    
-                    
+                    else if (com[0] == "language")
+                    {
+                        string envPath = "/home/raicitella/.config/EasyEncryption/.env";
+                        EasyEncryption.Config.UpdLang(envPath, com[1]);
+                        zapusk = true;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        System.Console.WriteLine("Ready!");
+                        Console.ResetColor();
+                        break;
+
+                    }
+
+
                 }
-                else if (vybor == "!HELP")
+                else if (vybor == "HELP")
                 {
                     System.Console.WriteLine("""
+
                 Список команд:
+                en - Зашифровать сообщение
+                de - Расшифровать сообщение
+                bk - вернуться назад
+                help - помощь (список команд)
+                config - настройки
+                version - текущуя версия программы
 
-                !en - Зашифровать сообщение
-                !de - Расшифровать сообщение
-                !bk - вернуться назад
-                !help - помощь (список команд)
-                !config - настройки
-
-                
                 """);
                 }
 
             }
+            if (zapusk == true)
+                Main();
+
         }
         else if (lang == "EN")
         {
             System.Console.WriteLine("""
                 List of commands:
-
-                !en - Encrypt the message
-                !de - Decrypt the message
-                !bk - go back
-                !help - help (list of commands)
-                !config - settings
+                en - Encrypt the message
+                de - Decrypt the message
+                bk - go back
+                help - help (list of commands)
+                config - settings
+                version - the current version of the program
                 
                 """);
 
@@ -122,71 +151,94 @@ internal class Program
 
                 string vybor = Console.ReadLine().ToUpper();
 
-                if (vybor == "!ENCRYPT" || vybor == "!EN")
+                if (vybor == "ENCRYPT" || vybor == "EN")
                 {
                     System.Console.WriteLine("To cancel the command, type - back or bk");
                     System.Console.Write("Enter message: ");
-                    string word = Console.ReadLine().ToUpper();
+                    string word = Console.ReadLine().ToLower();
                     Encryption.Encrypt(word);
                 }
-                else if (vybor == "!DECRYPT" || vybor == "!DE")
+                else if (vybor == "DECRYPT" || vybor == "DE")
                 {
                     System.Console.WriteLine("To cancel the command, type - back or bk");
                     System.Console.Write("Enter message: ");
                     string word = Console.ReadLine();
                     Encryption.Decrypt(word);
                 }
-                else if (vybor == "!0")
+                else if (vybor == "0")
                 {
+                    zapusk = false;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine("The program is completed!");
+                    Console.ResetColor();
                     break;
                 }
-                else if (vybor == "!VERSION")
+                else if (vybor == "VERSION")
                 {
                     System.Console.WriteLine(v);
                 }
-                else if (vybor == "!CONFIG")
+                else if (vybor == "CONFIG")
                 {
                     string keyyStr = Environment.GetEnvironmentVariable("KEY");
 
                     if (int.TryParse(keyyStr, out int keyy))
                     { }
+                    Console.ForegroundColor = ConsoleColor.Green;
                     System.Console.WriteLine($"""
+                     _________________________                    
                      Config EasyEncryption App
 
                      KEY={keyy}
                      LANGUAGE={lang}
+                     _________________________
                      """);
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    System.Console.Write("Config: ");
+                    Console.ResetColor();
                     string comm = Console.ReadLine();
                     string[] com = comm.Split('=');
-                    if(com[0] == "key")
+                    if (com[0] == "key")
                     {
-                        string envPath = ".env";
-                        EasyEncryption.Config.UpdKey(envPath,com[1]);
-
-                    }else if(com[0] == "language")
-                    {
-                        string envPath = ".env";
-                        EasyEncryption.Config.UpdLang(envPath,com[1]);
-                        
+                        string envPath = "/home/raicitella/.config/EasyEncryption/.env";
+                        EasyEncryption.Config.UpdKey(envPath, com[1]);
+                        zapusk = true;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        System.Console.WriteLine("Ready!");
+                        Console.ResetColor(); 
+                        break;
                     }
-                    
-                    
+                    else if (com[0] == "language")
+                    {
+                        string envPath = "/home/raicitella/.config/EasyEncryption/.env";
+                        EasyEncryption.Config.UpdLang(envPath, com[1]);
+                        zapusk = true;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        System.Console.WriteLine("Ready!");
+                        Console.ResetColor();
+                        break;
+                    }
+
+
                 }
-                else if (vybor == "!HELP")
+                else if (vybor == "HELP")
                 {
                     System.Console.WriteLine("""
-                            List of commands:
 
-                            !en - Encrypt the message
-                            !de - Decrypt the message
-                            !bk - go back
-                            !help - help (list of commands)
-                            !config - settings
+                            List of commands:
+                            en - Encrypt the message
+                            de - Decrypt the message
+                            bk - go back
+                            help - help (list of commands)
+                            config - settings
+                            version - the current version of the program
                     
                             """);
                 }
 
             }
+            if (zapusk == true)
+                Main();
         }
  
     }
