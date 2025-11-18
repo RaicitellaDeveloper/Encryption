@@ -209,6 +209,7 @@ namespace EasyEncryption
     
     class Config
     {
+        static public string pathEnv1 = null;
         public static async void UpdKey(string envPath, string key)
         {
             string zamena = $"KEY={key}";
@@ -271,14 +272,10 @@ namespace EasyEncryption
 
             }else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-                string confpath = $"{appDataPath}/EasyEncryption";
-                string confpath2 = $"{appDataPath}/EasyEncryption/.env";
-                string conf = """ 
-                LANGUAGE=EN 
-                KEY=131 
-                """;
+                string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                var confpath = Path.Combine(appDataPath, "EasyEncryption");
+                var confpath2 = Path.Combine(confpath, ".env");
+                string conf = "LANGUAGE=EN\nKEY=131\n";
                 if (!File.Exists(confpath2))
                 {
                     Directory.CreateDirectory(confpath);

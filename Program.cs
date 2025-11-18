@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DotNetEnv;
 using System.Diagnostics;
 using EasyEncryption;
-
+using System.Runtime.InteropServices;
 internal class Program
 {
     
@@ -16,8 +16,18 @@ internal class Program
 
         EasyEncryption.Config.CreateEnv();
 
-        string pathEnv1 = Path.Combine("/home/raicitella/.config/EasyEncryption/", ".env");
-        Env.Load(pathEnv1);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            string homePath = Environment.GetEnvironmentVariable("HOME");
+            string confpath = $"{homePath}/.config/EasyEncryption";
+            EasyEncryption.Config.pathEnv1 = Path.Combine(confpath, ".env");
+        }else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var confpath = Path.Combine(appDataPath, "EasyEncryption");
+            EasyEncryption.Config.pathEnv1 = Path.Combine(confpath, ".env");
+        }
+        Env.Load(EasyEncryption.Config.pathEnv1);
         string v = "1.4.0-dev";
         string lang = Environment.GetEnvironmentVariable("LANGUAGE");
         if (lang == "RU")
@@ -89,8 +99,8 @@ internal class Program
                     string[] com = comm.Split('=');
                     if (com[0] == "key")
                     {
-                        string envPath = "/home/raicitella/.config/EasyEncryption/.env";
-                        EasyEncryption.Config.UpdKey(envPath, com[1]);
+                    
+                        EasyEncryption.Config.UpdKey(EasyEncryption.Config.pathEnv1, com[1]);
                         zapusk = true;
                         Console.ForegroundColor = ConsoleColor.Green;
                         System.Console.WriteLine("Ready!");
@@ -100,8 +110,8 @@ internal class Program
                     }
                     else if (com[0] == "language")
                     {
-                        string envPath = "/home/raicitella/.config/EasyEncryption/.env";
-                        EasyEncryption.Config.UpdLang(envPath, com[1]);
+                        
+                        EasyEncryption.Config.UpdLang(EasyEncryption.Config.pathEnv1, com[1]);
                         zapusk = true;
                         Console.ForegroundColor = ConsoleColor.Green;
                         System.Console.WriteLine("Ready!");
