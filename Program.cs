@@ -28,7 +28,7 @@ internal class Program
             EasyEncryption.Config.pathEnv1 = Path.Combine(confpath, ".env");
         }
         Env.Load(EasyEncryption.Config.pathEnv1);
-        string v = "1.4.0-dev";
+        string v = "1.4.0-release";
         string lang = Environment.GetEnvironmentVariable("LANGUAGE");
         if (lang == "RU")
         {   
@@ -210,8 +210,7 @@ internal class Program
                     string[] com = comm.Split('=');
                     if (com[0] == "key")
                     {
-                        string envPath = "/home/raicitella/.config/EasyEncryption/.env";
-                        EasyEncryption.Config.UpdKey(envPath, com[1]);
+                        EasyEncryption.Config.UpdKey(EasyEncryption.Config.pathEnv1, com[1]);
                         zapusk = true;
                         Console.ForegroundColor = ConsoleColor.Green;
                         System.Console.WriteLine("Ready!");
@@ -220,8 +219,7 @@ internal class Program
                     }
                     else if (com[0] == "language")
                     {
-                        string envPath = "/home/raicitella/.config/EasyEncryption/.env";
-                        EasyEncryption.Config.UpdLang(envPath, com[1]);
+                        EasyEncryption.Config.UpdLang(EasyEncryption.Config.pathEnv1, com[1]);
                         zapusk = true;
                         Console.ForegroundColor = ConsoleColor.Green;
                         System.Console.WriteLine("Ready!");

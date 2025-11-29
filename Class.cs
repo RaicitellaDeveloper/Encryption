@@ -252,6 +252,7 @@ namespace EasyEncryption
                 string homePath = Environment.GetEnvironmentVariable("HOME");
                 string confpath = $"{homePath}/.config/EasyEncryption";
                 string confpath2 = $"{homePath}/.config/EasyEncryption/.env";
+                pathEnv1 = confpath2;
                 string conf = """ 
                 LANGUAGE=EN 
                 KEY=131 
@@ -275,6 +276,7 @@ namespace EasyEncryption
                 string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 var confpath = Path.Combine(appDataPath, "EasyEncryption");
                 var confpath2 = Path.Combine(confpath, ".env");
+                pathEnv1 = confpath2;
                 string conf = "LANGUAGE=EN\nKEY=131\n";
                 if (!File.Exists(confpath2))
                 {
